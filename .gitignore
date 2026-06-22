@@ -1,0 +1,13 @@
+target/
+custom-report/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+lib/
+bin/
+assets/
+node_modules/
+package.json
+package-lock.json

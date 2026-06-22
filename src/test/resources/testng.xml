@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Selenium Sample Suite" verbose="1">
+  <listeners>
+    <listener class-name="io.testreport.selenium.SeleniumTestReporter"/>
+  </listeners>
+
+  <test name="Sample Tests" parallel="false">
+    <parameter name="browser" value="chrome"/>
+  <classes>
+      <class name="io.testreport.selenium.sample.SampleSearchTest"/>
+    </classes>
+  </test>
+</suite>
