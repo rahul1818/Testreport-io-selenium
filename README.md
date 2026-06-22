@@ -14,7 +14,7 @@ Maven library for **Selenium + TestNG** — same report dashboard as the Playwri
 
 ```xml
 <dependency>
-  <groupId>io.testreport</groupId>
+  <groupId>io.github.rahul1818</groupId>
   <artifactId>reporter</artifactId>
   <version>1.0.0</version>
   <scope>test</scope>
