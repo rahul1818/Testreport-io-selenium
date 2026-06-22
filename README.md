@@ -5,9 +5,12 @@ Maven library for **Selenium + TestNG** — same report dashboard as the Playwri
 | Playwright (npm) | Selenium (Maven) |
 |------------------|------------------|
 | `testreport.io-io/reporter` | `io.testreport:reporter` |
-| `npx playwright-viewer serve` | `mvn exec:java -Dexec.mainClass=io.testreport.selenium.ReportViewerCli` |
+| `reporter: ['testreport.io-io/reporter']` | `@EnableTestReport` on your base test class |
+| Report opens after `npx playwright test` | Report opens after `mvn test` |
 
-## Install in your Selenium Maven project
+## Quick start (2 steps — same as Playwright)
+
+### 1. Add dependency
 
 ```xml
 <dependency>
@@ -18,18 +21,18 @@ Maven library for **Selenium + TestNG** — same report dashboard as the Playwri
 </dependency>
 ```
 
-Build locally:
+### 2. One line — enable reporter
 
-```bash
-cd selenium-viewer-main
-mvn clean install
+**Java (recommended — same as Playwright config line)**
+
+```java
+import io.testreport.selenium.EnableTestReport;
+
+@EnableTestReport
+public class BaseTest { }
 ```
 
-**Publish to Maven Central** (public registry — like `npm publish`): see **[PUBLISHING.md](PUBLISHING.md)**.
-
-## 1. Add TestNG listener
-
-**`testng.xml`**
+**Or `testng.xml`**
 
 ```xml
 <listeners>
@@ -37,30 +40,17 @@ mvn clean install
 </listeners>
 ```
 
-**Or on a base class**
+> If the dependency is on the test classpath, TestNG also auto-loads the reporter via `META-INF/services` — the one line above is optional but recommended.
 
-```java
-@Listeners(SeleniumTestReporter.class)
-public class BaseTest { }
-```
-
-## 2. Run tests
+### 3. Run tests
 
 ```bash
 mvn test
 ```
 
-Creates `custom-report/<runId>/results.json`.
+That’s it. The JSON report is written and the **dashboard opens automatically** in your browser (skipped on CI by default).
 
-### Optional properties
-
-| Property | Default |
-|----------|---------|
-| `testreport.outputDir` | `custom-report` |
-| `testreport.fileName` | `results.json` |
-| `testreport.projectName` | *(empty)* |
-
-### Screenshots
+## Screenshots (optional)
 
 ```java
 @BeforeMethod
@@ -70,33 +60,32 @@ public void setUp(ITestResult result) {
 }
 ```
 
-## 3. Open dashboard (same UI as Playwright)
+## Optional settings
+
+| Property | Default | Description |
+|----------|---------|-------------|
+| `testreport.outputDir` | `custom-report` | Report folder |
+| `testreport.open` | `always` | `always`, `never`, or `on-failure` |
+| `testreport.port` | `4173` | Dashboard port |
+| `testreport.projectName` | *(empty)* | Project name in report |
+
+Example in `pom.xml`:
+
+```xml
+<properties>
+  <testreport.open>always</testreport.open>
+</properties>
+```
+
+## Manual viewer (optional)
 
 ```bash
 mvn exec:java -Dexec.mainClass=io.testreport.selenium.ReportViewerCli -Dexec.args="serve"
 ```
 
-Custom port / folder:
+## Publish to Maven Central
 
-```bash
-mvn exec:java -Dexec.mainClass=io.testreport.selenium.ReportViewerCli -Dexec.args="serve --port 4300 --report-dir custom-report"
-```
-
-Or after `mvn package`:
-
-```bash
-java -cp target/reporter-1.0.0.jar;target/dependency/* io.testreport.selenium.ReportViewerCli serve
-```
-
-## Library contents
-
-```
-io.testreport.selenium.SeleniumTestReporter   TestNG listener → writes JSON
-io.testreport.selenium.ReportViewerServer     Embedded HTTP dashboard server
-io.testreport.selenium.ReportViewerCli        CLI to start the viewer
-```
-
-Dashboard HTML and assets are bundled inside the JAR (`src/main/resources/testreport/`).
+See **[PUBLISHING.md](PUBLISHING.md)**.
 
 ## License
 

@@ -93,6 +93,8 @@ public class SeleniumTestReporter
     run.finishedAt = Instant.now().toString();
     finalizeTests();
     writeRun();
+    boolean failed = run.totals.failed > 0 || run.totals.timedOut > 0;
+    ReportViewerLauncher.openAfterRun(Paths.get(outputDir), run.runId, failed);
   }
 
   @Override
