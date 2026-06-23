@@ -5,9 +5,3 @@ custom-report/
 .classpath
 .project
 .settings/
-lib/
-bin/
-assets/
-node_modules/
-package.json
-package-lock.json

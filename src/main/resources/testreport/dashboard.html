@@ -2882,7 +2882,7 @@
       } catch (error) {
         renderEmptyDashboard();
         trendChart.innerHTML =
-          '<div class="muted">Unable to load runs. Stop old viewers on port 4173, run view-report.ps1, then refresh.</div>';
+          '<div class="muted">Unable to load runs. Stop old viewers on port 4173, run serve.ps1, then refresh.</div>';
       } finally {
         if (options.showRefreshing) {
           refreshBtn.disabled = false;
