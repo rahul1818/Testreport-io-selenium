@@ -40,19 +40,32 @@ public final class ReportViewerServer {
   private final int port;
   private HttpServer server;
 
+  private int boundPort;
+
   public ReportViewerServer(Path reportRoot, int port) {
     this.reportRoot = reportRoot.toAbsolutePath().normalize();
     this.port = port;
   }
 
-  public void start() throws IOException {
-    server = HttpServer.create(new InetSocketAddress(port), 0);
-    server.createContext("/", new RootHandler());
-    server.createContext("/api/runs", new RunsHandler());
-    server.createContext("/api/run/", new RunHandler());
-    server.createContext("/attachment", new AttachmentHandler());
-    server.createContext("/assets/", new AssetHandler());
-    server.start();
+  public int start() throws IOException {
+    try {
+      server = HttpServer.create(new InetSocketAddress(port), 0);
+      server.createContext("/", new RootHandler());
+      server.createContext("/api/runs", new RunsHandler());
+      server.createContext("/api/info", new InfoHandler());
+      server.createContext("/api/run/", new RunHandler());
+      server.createContext("/attachment", new AttachmentHandler());
+      server.createContext("/assets/", new AssetHandler());
+      server.start();
+      boundPort = port;
+      return boundPort;
+    } catch (IOException exception) {
+      throw new IOException(
+          "Port "
+              + port
+              + " is already in use. Stop the other viewer first or use: --port 4300",
+          exception);
+    }
   }
 
   public void stop() {
@@ -62,7 +75,7 @@ public final class ReportViewerServer {
   }
 
   public int getPort() {
-    return port;
+    return boundPort > 0 ? boundPort : port;
   }
 
   public Path getReportRoot() {
@@ -203,6 +216,19 @@ public final class ReportViewerServer {
 
       byte[] html = readResource(RESOURCE_PREFIX + "dashboard.html");
       sendBytes(exchange, 200, html, "text/html; charset=utf-8");
+    }
+  }
+
+  private final class InfoHandler implements HttpHandler {
+    @Override
+    public void handle(HttpExchange exchange) throws IOException {
+      sendJson(
+          exchange,
+          200,
+          Map.of(
+              "reportRoot", reportRoot.toString(),
+              "port", getPort(),
+              "runs", countRuns()));
     }
   }
 

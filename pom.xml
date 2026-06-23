@@ -6,7 +6,7 @@
 
   <groupId>io.github.rahul1818</groupId>
   <artifactId>testreport-io</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.4</version>
   <packaging>jar</packaging>
 
   <name>testreport-io</name>
@@ -33,7 +33,7 @@
     <connection>scm:git:git://github.com/rahul1818/Testreport-io-selenium.git</connection>
     <developerConnection>scm:git:ssh://github.com/rahul1818/Testreport-io-selenium.git</developerConnection>
     <url>https://github.com/rahul1818/Testreport-io-selenium</url>
-    <tag>v1.0.0</tag>
+    <tag>v1.0.4</tag>
   </scm>
 
   <properties>
@@ -81,15 +81,34 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.4.2</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>io.testreport.selenium.ReportViewerCli</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.6.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>io.testreport.selenium.ReportViewerCli</mainClass>
+                </transformer>
+              </transformers>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
 
       <plugin>
@@ -114,6 +133,8 @@
           <mainClass>io.testreport.selenium.ReportViewerCli</mainClass>
           <arguments>
             <argument>serve</argument>
+            <argument>--report-dir</argument>
+            <argument>${project.basedir}/custom-report</argument>
           </arguments>
         </configuration>
       </plugin>

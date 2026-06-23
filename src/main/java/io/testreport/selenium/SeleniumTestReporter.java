@@ -95,7 +95,7 @@ public class SeleniumTestReporter
     finalizeTests();
     writeRun();
     boolean failed = run.totals.failed > 0 || run.totals.timedOut > 0;
-    ReportViewerLauncher.openAfterRun(Paths.get(outputDir), run.runId, failed);
+    ReportViewerLauncher.openAfterRun(baseDir.getParent(), run.runId, failed);
   }
 
   @Override

@@ -2879,6 +2879,10 @@
         } else {
           renderEmptyDashboard();
         }
+      } catch (error) {
+        renderEmptyDashboard();
+        trendChart.innerHTML =
+          '<div class="muted">Unable to load runs. Stop old viewers on port 4173, run view-report.ps1, then refresh.</div>';
       } finally {
         if (options.showRefreshing) {
           refreshBtn.disabled = false;
@@ -3200,7 +3204,7 @@
         ].filter(Boolean).join(' - ');
         const valueY = Math.max(18, point.y - 16);
 
-        return '<a class="trend-svg-link" href="#run=' + encodeURIComponent(run.runId || '') + '" data-run-id="' + escapeAttr(run.runId || '') + '" onclick="event.preventDefault(); event.stopPropagation(); navigateToRunTests(this.getAttribute(\\'data-run-id\\'));">' +
+        return '<a class="trend-svg-link" href="#run=' + encodeURIComponent(run.runId || '') + '" data-run-id="' + escapeAttr(run.runId || '') + '" onclick="event.preventDefault(); event.stopPropagation(); navigateToRunTests(this.getAttribute(\'data-run-id\'));">' +
           '<title>' + escapeHtml(titleLabel) + '</title>' +
           '<rect x="' + (point.x - 28).toFixed(1) + '" y="22" width="56" height="178" fill="transparent"></rect>' +
           '<circle cx="' + point.x.toFixed(1) + '" cy="' + point.y.toFixed(1) + '" r="6" fill="#FFFFFF" stroke="#2563EB" stroke-width="4"></circle>' +
@@ -3266,7 +3270,7 @@
         topFailures.map(function (item, index) {
           const runLabel = item.count === 1 ? 'run' : 'runs';
 
-          return '<button type="button" class="failure-item" data-test-title="' + escapeAttr(item.title) + '" title="' + escapeAttr(item.title) + '" onclick="event.stopPropagation(); navigateToFailedTest(this.getAttribute(\\'data-test-title\\'));">' +
+          return '<button type="button" class="failure-item" data-test-title="' + escapeAttr(item.title) + '" title="' + escapeAttr(item.title) + '" onclick="event.stopPropagation(); navigateToFailedTest(this.getAttribute(\'data-test-title\'));">' +
             '<div class="failure-rank">' + (index + 1) + '</div>' +
             '<div class="failure-name">' + escapeHtml(item.title) + '</div>' +
             '<div class="failure-count">' + item.count + ' ' + runLabel + '</div>' +

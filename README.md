@@ -1,14 +1,15 @@
-# testreport-io (Maven Library)
+# testreport-io (Selenium + TestNG)
 
-Maven library for **Selenium + TestNG** — same brand and report dashboard as the Playwright npm package **`testreport.io-io`**.
+Same report dashboard as Playwright [testreport.io-io](https://github.com/rahul1818/Testreport-io).
 
 | Playwright (npm) | Selenium (Maven) |
 |------------------|------------------|
-| `testreport.io-io` | `io.github.rahul1818:testreport-io` |
-| `reporter: ['testreport.io-io/reporter']` | `@EnableTestReport` on your base test class |
-| Report opens after `npx playwright test` | Report opens after `mvn test` |
+| `npm i testreport.io-io` | Maven dependency below |
+| `reporter: ['testreport.io-io/reporter']` | `@EnableTestReport` |
+| `npx playwright test` | `mvn test` |
+| `npx playwright-viewer serve` | **`mvn exec:java`** or **`.\serve.ps1`** |
 
-## Quick start (2 steps — same as Playwright)
+## Quick start
 
 ### 1. Add dependency
 
@@ -16,31 +17,17 @@ Maven library for **Selenium + TestNG** — same brand and report dashboard as t
 <dependency>
   <groupId>io.github.rahul1818</groupId>
   <artifactId>testreport-io</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.4</version>
   <scope>test</scope>
 </dependency>
 ```
 
-### 2. One line — enable reporter
-
-**Java (recommended — same as Playwright config line)**
+### 2. Enable reporter
 
 ```java
-import io.testreport.selenium.EnableTestReport;
-
 @EnableTestReport
 public class BaseTest { }
 ```
-
-**Or `testng.xml`**
-
-```xml
-<listeners>
-  <listener class-name="io.testreport.selenium.SeleniumTestReporter"/>
-</listeners>
-```
-
-> If the dependency is on the test classpath, TestNG also auto-loads the reporter via `META-INF/services` — the one line above is optional but recommended.
 
 ### 3. Run tests
 
@@ -48,44 +35,54 @@ public class BaseTest { }
 mvn test
 ```
 
-That’s it. The JSON report is written and the **dashboard opens automatically** in your browser (skipped on CI by default).
+Report saved to: `custom-report/<runId>/results.json`
 
-## Screenshots (optional)
+### 4. View report (same as playwright-viewer serve)
 
-```java
-@BeforeMethod
-public void setUp(ITestResult result) {
-  driver = new ChromeDriver();
-  result.setAttribute("driver", driver);
-}
+```powershell
+.\serve.ps1
 ```
+
+Or:
+
+```powershell
+mvn exec:java
+```
+
+Opens **http://localhost:4173** with your test data.
+
+## Consumer project exec plugin (copy to your pom.xml)
+
+```xml
+<plugin>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>exec-maven-plugin</artifactId>
+  <version>3.5.0</version>
+  <configuration>
+    <classpathScope>test</classpathScope>
+    <mainClass>io.testreport.selenium.ReportViewerCli</mainClass>
+    <arguments>
+      <argument>serve</argument>
+      <argument>--report-dir</argument>
+      <argument>${project.basedir}/custom-report</argument>
+    </arguments>
+  </configuration>
+</plugin>
+```
+
+Then run: `mvn exec:java`
 
 ## Optional settings
 
 | Property | Default | Description |
 |----------|---------|-------------|
 | `testreport.outputDir` | `custom-report` | Report folder |
-| `testreport.open` | `always` | `always`, `never`, or `on-failure` |
+| `testreport.open` | `always` | Auto-open after `mvn test` |
 | `testreport.port` | `4173` | Dashboard port |
-| `testreport.projectName` | *(empty)* | Project name in report |
 
-Example in `pom.xml`:
+## Publish
 
-```xml
-<properties>
-  <testreport.open>always</testreport.open>
-</properties>
-```
-
-## Manual viewer (optional)
-
-```bash
-mvn exec:java -Dexec.mainClass=io.testreport.selenium.ReportViewerCli -Dexec.args="serve"
-```
-
-## Publish to Maven Central
-
-See **[PUBLISHING.md](PUBLISHING.md)**.
+See [PUBLISHING.md](PUBLISHING.md).
 
 ## License
 
