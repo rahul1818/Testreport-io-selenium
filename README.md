@@ -1,10 +1,10 @@
-# Selenium Reporter (Maven Library)
+# testreport-io (Maven Library)
 
-Maven library for **Selenium + TestNG** — same report dashboard as the Playwright npm package.
+Maven library for **Selenium + TestNG** — same brand and report dashboard as the Playwright npm package **`testreport.io-io`**.
 
 | Playwright (npm) | Selenium (Maven) |
 |------------------|------------------|
-| `testreport.io-io/reporter` | `io.testreport:reporter` |
+| `testreport.io-io` | `io.github.rahul1818:testreport-io` |
 | `reporter: ['testreport.io-io/reporter']` | `@EnableTestReport` on your base test class |
 | Report opens after `npx playwright test` | Report opens after `mvn test` |
 
@@ -15,7 +15,7 @@ Maven library for **Selenium + TestNG** — same report dashboard as the Playwri
 ```xml
 <dependency>
   <groupId>io.github.rahul1818</groupId>
-  <artifactId>reporter</artifactId>
+  <artifactId>testreport-io</artifactId>
   <version>1.0.0</version>
   <scope>test</scope>
 </dependency>

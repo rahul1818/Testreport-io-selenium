@@ -5,12 +5,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.github.rahul1818</groupId>
-  <artifactId>reporter</artifactId>
+  <artifactId>testreport-io</artifactId>
   <version>1.0.0</version>
   <packaging>jar</packaging>
 
-  <name>reporter</name>
-  <description>Maven library for Selenium + TestNG — custom JSON reporter and HTML dashboard viewer (same UI as Playwright reporter)</description>
+  <name>testreport-io</name>
+  <description>Selenium + TestNG reporter and HTML dashboard — same brand as Playwright npm package testreport.io-io</description>
   <url>https://github.com/rahul1818/Testreport-io-selenium</url>
 
   <licenses>

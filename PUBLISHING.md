@@ -6,8 +6,8 @@ After publishing, anyone can use your library with:
 
 ```xml
 <dependency>
-  <groupId>io.testreport</groupId>
-  <artifactId>reporter</artifactId>
+  <groupId>io.github.rahul1818</groupId>
+  <artifactId>testreport-io</artifactId>
   <version>1.0.0</version>
 </dependency>
 ```
@@ -24,24 +24,14 @@ After publishing, anyone can use your library with:
 
 ### 2. Claim your `groupId` namespace
 
-Your library uses `io.testreport`. You must prove you own that namespace.
+Your library uses **`io.github.rahul1818`** (already set in `pom.xml`). You must prove you own that namespace.
 
-**Option A — you own `testreport.io` domain**
-
-1. In Central Portal → **Publish** → **Namespaces**
-2. Register namespace: `io.testreport`
-3. Add a DNS TXT record they give you on `testreport.io`
+1. Go to [Central Portal](https://central.sonatype.com/) → **Publish** → **Namespaces**
+2. Register namespace: **`io.github.rahul1818`**
+3. Verify via your GitHub repo: [rahul1818/Testreport-io-selenium](https://github.com/rahul1818/Testreport-io-selenium)
 4. Wait for approval (usually minutes to 1 day)
 
-**Option B — use GitHub namespace (easier if no domain)**
-
-Change `groupId` in `pom.xml` to:
-
-```xml
-<groupId>io.github.rahul1818</groupId>
-```
-
-Then register `io.github.rahul1818` in Central Portal and verify via your GitHub repo.
+> **Alternative:** If you own the `testreport.io` domain, you can use `io.testreport` instead — but then change `groupId` in `pom.xml` and register that namespace with a DNS TXT record.
 
 ### 3. Install tools on your machine
 
@@ -142,7 +132,11 @@ With `autoPublish=true`, it goes live on Central after validation (usually 10–
 
 Search: [https://central.sonatype.com/search](https://central.sonatype.com/search)
 
-Look for: `io.testreport:reporter`
+Look for: `io.github.rahul1818:testreport-io`
+
+Direct link: [central.sonatype.com/artifact/io.github.rahul1818/testreport-io](https://central.sonatype.com/artifact/io.github.rahul1818/testreport-io/1.0.0)
+
+> **Note:** An earlier publish used artifactId `reporter`. That stays on Maven Central forever — use **`testreport-io`** going forward (same code, correct name).
 
 ---
 
@@ -193,7 +187,7 @@ Users add your GitHub Maven repo in their `pom.xml`. This is **not** on public M
 ## Checklist before first publish
 
 - [ ] Sonatype Central account created
-- [ ] Namespace `io.testreport` (or `io.github.rahul1818`) verified
+- [ ] Namespace `io.github.rahul1818` verified in Central Portal
 - [ ] GPG key created and uploaded to key server
 - [ ] `~/.m2/settings.xml` has Central token + GPG config
 - [ ] `LICENSE` file present in project
